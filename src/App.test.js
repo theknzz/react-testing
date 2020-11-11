@@ -5,8 +5,7 @@ import React from 'react';
 
 const setUp = (initialState={}) => {
     const store = testStore(initialState);
-    const wrapper = shallow(<App store={store}/>).childAt(0).dive();
-    return wrapper;
+    return shallow(<App store={store}/>).childAt(0).dive();
 }
 
 describe('App Component', () => {
@@ -42,6 +41,23 @@ describe('App Component', () => {
 
         expect(component.length).toBe(1);
 
+    });
+
+    it('exampleMethod_updatesState Method should update as expected', () => {
+
+        const instance = wrapper.instance();
+
+        instance.exampleMethod_updatesState();
+
+        const newState = instance.state.hideBtn;
+
+        expect(newState).toBe(true);
+    });
+
+    it('exampleMethod_returnsAValue Method should return value as expected', () => {
+        const classInstance = wrapper.instance();
+        const newValue = classInstance.exampleMethod_returnsAValue(6);
+        expect(newValue).toBe(7);
     });
 
 });
