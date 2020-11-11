@@ -41,7 +41,7 @@ describe('fetchPosts action', () => {
         return store.dispatch(fetchPosts())
             .then(() => {
                 const newState = store.getState();
-                expect(newState.posts).toBe(expectedState);
+                expect(newState).toBe(expectedState);
             })
 
     });
