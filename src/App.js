@@ -17,7 +17,9 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <Headline header="Posts" desc="Click the button to render posts!" tempArr={tempArr} />
+      <section className="main">
+          <Headline header="Posts" desc="Click the button to render posts!" tempArr={tempArr} />
+      </section>
     </div>
   );
 }
