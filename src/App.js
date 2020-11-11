@@ -1,6 +1,10 @@
 import React from "react";
 import Header from "./components/header/Header";
 import Headline from "./components/headline/Headline";
+import Button from "./components/button/Button";
+import ListItem from "./components/listItem/ListItem";
+import { connect } from "react-redux";
+import { fetchPosts } from "./store/actions"
 
 /* This const is not used within our app.
    Although we are passing it to the Headline Component
@@ -13,15 +17,54 @@ const tempArr = [{
     onlineStatus: true
 }];
 
-function App() {
-  return (
+const App = ({ fetchData, posts }) => {
+
+    const fetch = () => {
+        fetchData()
+    }
+
+    const configBtn = {
+        buttonText: "Get posts",
+        emitEvent: fetch,
+    }
+
+    const list = posts.map(post => {
+
+        const configListItem = {
+            title: post.title,
+            key: post.id,
+            desc: post.body,
+        }
+
+        return <ListItem {...configListItem} />;
+    });
+
+    return (
     <div className="App">
       <Header />
       <section className="main">
           <Headline header="Posts" desc="Click the button to render posts!" tempArr={tempArr} />
+          <Button {...configBtn} />
+          { posts.length > 0 &&
+            <div>
+                {list}
+            </div>
+          }
       </section>
     </div>
-  );
+    );
 }
 
-export default App;
+const mapStateToProps = (state) => {
+    return {
+        posts: state.posts,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchData: () => dispatch(fetchPosts()),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

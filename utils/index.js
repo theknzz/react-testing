@@ -4,6 +4,9 @@
  */
 
 import checkPropTypes from "check-prop-types";
+import { applyMiddleware, createStore } from "redux";
+import { reducer as rootReducer } from "../src/store/reducer/posts/reducer";
+import { middlewares } from "../src/createStore";
 
 /**
  * Function finds element of component, by data-test value
@@ -23,4 +26,14 @@ export const findByTestAtrr = (component, attr) => {
  */
 export const checkProps = (component, expectedProps) => {
     return checkPropTypes(component.propTypes, expectedProps, 'props', component.name);
+};
+
+/**
+ * Function creates a test redux store
+ * @param initialState
+ * @returns {ReduxStore<*|*[], AnyAction> & {dispatch: ThunkDispatch<{}, undefined, AnyAction>}}
+ */
+export const testStore = (initialState) => {
+    const createStoreWithMiddleware = applyMiddleware(...middlewares)(createStore);
+    return createStoreWithMiddleware(rootReducer, initialState);
 };

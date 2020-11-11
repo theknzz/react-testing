@@ -13,13 +13,16 @@ code {
 }
 
 section {
-  margin-top: 5vh;
-  display: flex;
+  margin-top: 3vh;
   justify-content: center;
+  display: flex;
+  align-items: center;
+  flex-flow: column nowrap;
 }
 
 section > div {
   width: 70vw;
 }
+
 
 
