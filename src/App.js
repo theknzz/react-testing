@@ -1,10 +1,11 @@
-import React from "react";
-import Header from "./components/header/Header";
-import Headline from "./components/headline/Headline";
-import Button from "./components/button/Button";
-import ListItem from "./components/listItem/ListItem";
-import { connect } from "react-redux";
-import { fetchPosts } from "./store/actions"
+import React, { Component } from 'react';
+import Header from './components/header/Header';
+import Headline from './components/headline/Headline';
+import Button from './components/button/Button';
+import ListItem from './components/listItem/ListItem';
+import { connect } from 'react-redux';
+import { fetchPosts } from './store/actions';
+
 
 /* This const is not used within our app.
    Although we are passing it to the Headline Component
@@ -17,52 +18,79 @@ const tempArr = [{
     onlineStatus: true
 }];
 
-const App = ({ fetchData, posts }) => {
+const initialState = {
+    hideBtn: false
+};
 
-    const fetch = () => {
-        fetchData()
+class App extends Component {
+
+    constructor(props){
+        super(props);
+        this.state = {
+            ...initialState
+        }
+        this.fetch = this.fetch.bind(this);
     }
 
-    const configBtn = {
-        buttonText: "Get posts",
-        emitEvent: fetch,
+    fetch(){
+        this.props.fetchPosts();
+        this.exampleMethod_updatesState();
     }
 
-    const list = posts.map(post => {
+    exampleMethod_updatesState() {
+        const { hideBtn } = this.state;
+        this.setState({
+            hideBtn: !hideBtn
+        });
+    }
 
-        const configListItem = {
-            title: post.title,
-            key: post.id,
-            desc: post.body,
+    exampleMethod_returnsAValue(number) {
+        return number + 1;
+    }
+
+    render() {
+        const { posts } = this.props;
+        const { hideBtn } = this.state;
+
+        const configButton = {
+            buttonText: 'Get posts',
+            emitEvent: this.fetch
         }
 
-        return <div><ListItem {...configListItem} /></div>;
-    });
+        return (
+            <div className="App" data-test="appComponent">
+                <Header />
+                <section className="main">
+                    <Headline header="Posts" desc="Click the button to render posts!" tempArr={tempArr} />
 
-    return (
-    <div className="App" data-test="appComponent">
-      <Header />
-      <section className="main">
-          <Headline header="Posts" desc="Click the button to render posts!" tempArr={tempArr} />
-          <Button {...configBtn} />
-          { posts.length > 0 &&
-            {list}
-          }
-      </section>
-    </div>
-    );
-}
+                    {!hideBtn &&
+                    <Button {...configButton} />
+                    }
 
-const mapStateToProps = (state) => {
-    return {
-        posts: state.posts,
+                    {posts.length > 0 &&
+                    <div>
+                        {posts.map((post, index) => {
+                            const { title, body } = post;
+                            const configListItem = {
+                                title,
+                                desc: body
+                            };
+                            return (
+                                <ListItem key={index} {...configListItem} />
+                            )
+                        })}
+                    </div>
+                    }
+                </section>
+            </div>
+        );
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = state => {
     return {
-        fetchData: () => dispatch(fetchPosts()),
+        posts: state.posts
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, {fetchPosts})(App);
