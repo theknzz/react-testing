@@ -1,5 +1,5 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { shallow, simulate } from "enzyme";
 import { findByTestAtrr, checkProps } from "../../../utils"
 import Button from "./Button"
 
@@ -24,16 +24,18 @@ describe('Button Component', () => {
     });
 
 
-
     describe('Have props', () => {
 
         let wrapper;
+        let mockFunc;
 
         beforeEach(() => {
 
+            mockFunc = jest.fn();
+
             const props = {
                 buttonText: 'Example buttonText',
-                emitEvent: () => {},
+                emitEvent: mockFunc,
             }
 
             wrapper = shallow(<Button {...props} />);
@@ -48,7 +50,19 @@ describe('Button Component', () => {
 
         })
 
+        it('Should emit callback on click event', () => {
+
+            const button = findByTestAtrr(wrapper, 'buttonComponent');
+
+            button.simulate('click');
+
+            const callback = mockFunc.mock.calls.length;
+
+            expect(callback).toBe(1);
+        });
+
     });
+
 
     describe('Have NO props', () => {
 
@@ -67,8 +81,5 @@ describe('Button Component', () => {
         });
 
     });
-
-
-
 
 });
