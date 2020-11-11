@@ -30,5 +30,5 @@ describe('Header component', () => {
        const logo = findByTestAtrr(component, "logoH1");
        expect(logo.length).toBe(1);
     });
-    
+
 })

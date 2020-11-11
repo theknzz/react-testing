@@ -1,13 +1,12 @@
 header {
   display: block;
-  width: 100%;
   height: 10vh;
   margin: 0 auto;
   padding: 0 10px;
   background: #121212;
 }
 
-.wrap {
+header > .wrap {
   position: relative;
   display: block;
   width: 100%;
@@ -16,7 +15,7 @@ header {
   max-width: 70vw;
 }
 
-.logo {
+header > .wrap >.logo {
   display: block;
   width: 120px;
   position: absolute;
@@ -27,7 +26,7 @@ header {
   transform: translateY(-50%);
 }
 
-h1 {
+header > .wrap > .logo > h1 {
   display: block;
   width: 100%;
   margin: 0 !important;
