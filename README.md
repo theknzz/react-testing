@@ -1,4 +1,4 @@
-#⚛ Unit and Integration Testing
+# ⚛ Unit and Integration Testing
 
 ### 📖 Learned
 With this project I was able to learn how to set up and automate unit and integration testing in react.js
